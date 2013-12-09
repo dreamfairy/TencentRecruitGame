@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:665fb31348c527194f3f7006d892407c:1/1$ -->
+<TextureAtlas imagePath="PrompaDroid.png">
+    <SubTexture name="pd_sprites" x="2" y="2" width="508" height="642" frameX="-2" frameY="-2" frameWidth="512" frameHeight="1024"/>
+</TextureAtlas>

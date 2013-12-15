@@ -3,6 +3,7 @@ package Core.Manager.StateMachine
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	
+	import Core.Manager.LayerManager.LayerManager;
 	import Core.Manager.StateMachine.Entity.PlayState;
 
 	/**
@@ -22,6 +23,7 @@ package Core.Manager.StateMachine
 		
 		public function init(root : DisplayObjectContainer) : void
 		{
+			LayerManager.instance.init(root);
 			root.addEventListener(Event.ENTER_FRAME, update);
 		}
 		

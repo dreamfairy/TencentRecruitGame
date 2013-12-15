@@ -2,12 +2,15 @@ package Core.Manager.StateMachine.Entity
 {
 	import flash.system.Capabilities;
 	
+	import Core.Actor.ActorBase;
+	import Core.Manager.ActorManager;
+	import Core.Manager.SceneManager;
 	import Core.Manager.LayerManager.LayerManager;
+	import Core.Manager.LayerManager.StarlingRootLayer;
 	import Core.Manager.StateMachine.IGameState;
 	
 	import starling.core.Starling;
-	import starling.display.DisplayObjectContainer;
-	import starling.display.Sprite;
+	import starling.events.Event;
 	
 	/**
 	 * Author : 苍白的茧
@@ -21,19 +24,29 @@ package Core.Manager.StateMachine.Entity
 		
 		public function Awake():void
 		{
-			m_starling = new Starling(Sprite, LayerManager.instance.stage);
-			m_starling.enableErrorChecking = false;
-			m_starling.showStats = Capabilities.isDebugger;
-			m_starling.root = LayerManager.instance.starlingLayer as DisplayObjectContainer;
-			m_starling.start();
+			
 		}
 		
 		public function Start():void
 		{
+			m_starling = new Starling(StarlingRootLayer, LayerManager.instance.stage);
+			m_starling.enableErrorChecking = false;
+			m_starling.showStats = Capabilities.isDebugger;
+			m_starling.addEventListener(Event.ROOT_CREATED, onCreated);
+			m_starling.start();	
+		}
+		
+		private function onCreated():void
+		{
+			SceneManager.instance.init(null);
+			ActorManager.instance.init("./resource/PrompaDroid.xml");
+			var hero : ActorBase = ActorManager.instance.createHero();
+			hero.displayObject.y = 200;
 		}
 		
 		public function Update(t:Number):void
 		{
+			ActorManager.instance.update(t);
 		}
 		
 		public function Quit():void

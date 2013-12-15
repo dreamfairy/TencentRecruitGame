@@ -57,9 +57,9 @@ package Core.Manager.LayerManager
 			return m_starlingLayer;
 		}
 		
-		public function set starlingLayer(layer : starling.display.DisplayObjectContainer)
+		public function set starlingLayer(layer : starling.display.DisplayObjectContainer) : void
 		{
-			
+			m_starlingLayer = layer;
 		}
 		
 		protected function onKeyUp(event:KeyboardEvent):void
@@ -90,6 +90,6 @@ package Core.Manager.LayerManager
 		
 		private var m_stageEventList : Vector.<IStageEvent> = new Vector.<IStageEvent>();
 		private var m_stage : Stage;
-		private var m_starlingLayer : Sprite;
+		private var m_starlingLayer : starling.display.DisplayObjectContainer;
 	}
 }

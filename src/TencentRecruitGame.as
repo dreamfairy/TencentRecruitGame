@@ -11,7 +11,7 @@ package
 	 * Author : 苍白的茧
 	 * Date : 2013-12-9 下午4:44:28
 	 */
-	[SWF(frameRate="60",width="1024",height="768")]
+	[SWF(frameRate="60",width="480",height="320")]
 	public class TencentRecruitGame extends Sprite
 	{
 		public function TencentRecruitGame()

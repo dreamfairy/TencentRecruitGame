@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scene width = "960" height = "320">
+	<gameobject>
+		<floors>
+			<floor x = "0" y= "307.5"/>
+			<floor x = "134.5" y= "307.5"/>
+			<floor x = "269" y= "307.5"/>
+			<floor x = "403.5" y= "307.5"/>
+			<floor x = "538" y= "307.5"/>
+			<floor x = "672.5" y= "307.5"/>
+			<floor x = "807" y= "307.5"/>
+			<floor x = "941.5" y= "307.5"/>
+
+			<floor x = "82.2" y= "148"/>
+			<floor x = "216.7" y= "148"/>
+			<floor x = "351.2" y= "148"/>
+			<floor x = "485.7" y= "148"/>
+		</floors>
+		<ladders>
+			<ladder x = "126" y = "147.5"/>
+			<ladder x = "532.9" y = "147.5"/>
+		</ladders>
+		<npcs>
+			<npc x = "420.6" y = "200"/>
+			<npc x = "274.95" y = "-136.5"/>
+		</npcs>
+		<player x = "110" y = "170"/>
+	</gameobject>
+</scene>

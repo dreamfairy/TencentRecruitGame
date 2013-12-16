@@ -1,11 +1,15 @@
 package Core.Actor
 {
+	import flash.geom.Rectangle;
+	
 	import starling.display.DisplayObject;
+	import starling.textures.TextureAtlas;
 
 	public class ActorBase
 	{
-		public function ActorBase()
+		public function ActorBase(textureAtlas : TextureAtlas)
 		{
+			m_atals = textureAtlas;
 		}
 		
 		public function get displayObject() : DisplayObject
@@ -18,6 +22,11 @@ package Core.Actor
 			return 1;
 		}
 		
+		public function get bounds() : Rectangle
+		{
+			return m_bounds;
+		}
+		
 		public function update(time : Number) : void
 		{
 			
@@ -28,7 +37,9 @@ package Core.Actor
 			
 		}
 		
+		protected var m_bounds : Rectangle = new Rectangle();
 		protected var m_displayObject : DisplayObject;
+		protected var m_atals : TextureAtlas;
 		protected var m_speed : Number = 1;
 	}
 }

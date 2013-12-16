@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:fdf76c5964248cd2c0f094f5f7051648:1/1$ -->
+<TextureAtlas imagePath="prompa.png">
+    <SubTexture name="dialog" x="139" y="954" width="65" height="65"/>
+    <SubTexture name="floor" x="2" y="1005" width="135" height="13"/>
+    <SubTexture name="hero_attack_00_00" x="644" y="254" width="48" height="82" frameX="-116" frameY="-34" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="hero_attack_00_01" x="512" y="2" width="78" height="80" frameX="-101" frameY="-35" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="hero_attack_00_02" x="902" y="102" width="72" height="82" frameX="-104" frameY="-34" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="hero_hurt_00" x="534" y="938" width="56" height="84" frameX="-112" frameY="-33" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="hero_hurt_01" x="476" y="938" width="56" height="84" frameX="-112" frameY="-33" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="hero_hurt_02" x="938" y="252" width="56" height="82" frameX="-112" frameY="-34" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="hero_idle_00" x="702" y="178" width="50" height="80" frameX="-115" frameY="-35" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="hero_idle_01" x="648" y="90" width="54" height="80" frameX="-113" frameY="-35" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="hero_idle_02" x="592" y="172" width="54" height="78" frameX="-113" frameY="-36" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="hero_idle_03" x="592" y="90" width="54" height="80" frameX="-113" frameY="-35" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="hero_idle_04" x="648" y="172" width="52" height="80" frameX="-114" frameY="-35" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="hero_idle_05" x="524" y="262" width="50" height="80" frameX="-115" frameY="-35" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="hero_knockout_00" x="878" y="186" width="58" height="78" frameX="-111" frameY="-36" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="hero_knockout_01" x="938" y="252" width="56" height="82" frameX="-112" frameY="-34" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="hero_knockout_02" x="206" y="950" width="74" height="56" frameX="-103" frameY="-47" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="hero_knockout_03" x="282" y="950" width="94" height="24" frameX="-93" frameY="-63" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="hero_knockout_04" x="282" y="976" width="96" height="22" frameX="-92" frameY="-64" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="hero_walk_00" x="524" y="180" width="52" height="80" frameX="-114" frameY="-35" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="hero_walk_01" x="976" y="86" width="42" height="82" frameX="-119" frameY="-34" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="hero_walk_02" x="754" y="178" width="48" height="82" frameX="-116" frameY="-34" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="hero_walk_03" x="592" y="334" width="48" height="80" frameX="-116" frameY="-35" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="hero_walk_04" x="976" y="170" width="42" height="80" frameX="-119" frameY="-35" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="hero_walk_05" x="694" y="260" width="38" height="82" frameX="-121" frameY="-34" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="hero_walk_06" x="976" y="2" width="44" height="82" frameX="-118" frameY="-34" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="hero_walk_07" x="592" y="252" width="50" height="80" frameX="-115" frameY="-35" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="ladder" x="2" y="726" width="42" height="161"/>
+    <SubTexture name="proma" x="2" y="2" width="508" height="722" frameX="-2" frameY="-1" frameWidth="512" frameHeight="1024"/>
+    <SubTexture name="robot_attack_00" x="370" y="726" width="62" height="108" frameX="-109" frameY="-21" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="robot_attack_01" x="416" y="836" width="58" height="108" frameX="-111" frameY="-21" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="robot_attack_02" x="272" y="838" width="62" height="110" frameX="-109" frameY="-20" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="robot_attack_03" x="434" y="726" width="88" height="106" frameX="-96" frameY="-22" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="robot_attack_04" x="284" y="726" width="84" height="108" frameX="-98" frameY="-21" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="robot_hurt_00" x="806" y="106" width="70" height="100" frameX="-105" frameY="-25" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="robot_hurt_01" x="902" y="2" width="72" height="98" frameX="-104" frameY="-26" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="robot_hurt_02" x="728" y="84" width="76" height="92" frameX="-102" frameY="-29" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="robot_idle_00" x="370" y="726" width="62" height="108" frameX="-109" frameY="-21" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="robot_idle_01" x="66" y="874" width="62" height="112" frameX="-109" frameY="-19" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="robot_idle_02" x="2" y="889" width="62" height="114" frameX="-109" frameY="-18" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="robot_idle_03" x="220" y="726" width="62" height="110" frameX="-109" frameY="-20" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="robot_idle_04" x="130" y="840" width="60" height="112" frameX="-110" frameY="-19" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="robot_knockout_00" x="806" y="106" width="70" height="100" frameX="-105" frameY="-25" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="robot_knockout_01" x="512" y="84" width="76" height="94" frameX="-102" frameY="-28" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="robot_knockout_02" x="728" y="2" width="90" height="80" frameX="-95" frameY="-35" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="robot_knockout_03" x="592" y="2" width="134" height="86" frameX="-73" frameY="-32" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="robot_knockout_04" x="46" y="840" width="82" height="32" frameX="-99" frameY="-59" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="robot_walk_00" x="46" y="726" width="84" height="112" frameX="-98" frameY="-19" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="robot_walk_01" x="476" y="834" width="86" height="102" frameX="-97" frameY="-24" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="robot_walk_02" x="336" y="836" width="78" height="108" frameX="-101" frameY="-21" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="robot_walk_03" x="192" y="838" width="78" height="110" frameX="-101" frameY="-20" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="robot_walk_04" x="820" y="2" width="80" height="102" frameX="-100" frameY="-24" frameWidth="280" frameHeight="150"/>
+    <SubTexture name="robot_walk_05" x="132" y="726" width="86" height="110" frameX="-97" frameY="-20" frameWidth="280" frameHeight="150"/>
+</TextureAtlas>

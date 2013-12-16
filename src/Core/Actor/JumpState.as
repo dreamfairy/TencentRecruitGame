@@ -15,6 +15,15 @@ package Core.Actor
 			if(!m_isJumpping) onEnter();
 		}
 		
+		public function onJumpping() : void
+		{
+			if(m_state != JUMP_STATE_TOP) {
+				m_isJumpping = true;
+				m_jumpY = int.MAX_VALUE;
+				onTop();
+			}
+		}
+		
 		public function update(t : Number) : void
 		{
 			if(m_state == JUMP_STATE_ENTER){
@@ -40,6 +49,7 @@ package Core.Actor
 		{
 			m_state = JUMP_STATE_TOP;
 			m_velocity = 0;
+			m_isInTop = true;
 		}
 		
 		private function onExit() : void
@@ -47,17 +57,23 @@ package Core.Actor
 			m_state = JUMP_STATE_EXIT;
 			m_target.displayObject.y = m_jumpY;
 			m_isJumpping = false;
+			m_isInTop = false;
 		}
 		
-		public function stop() :void
+		public function stop(rightY : Number = -1) :void
 		{
-			m_jumpY = m_target.displayObject.y;
+			m_jumpY = rightY == 1 ? m_target.displayObject.y : rightY;
 			onExit();
 		}
 		
 		public function get isJumpping() : Boolean
 		{
 			return m_isJumpping;
+		}
+		
+		public function get isInTop() : Boolean
+		{
+			return m_isInTop;
 		}
 		
 		private var m_state : uint;
@@ -67,6 +83,7 @@ package Core.Actor
 		private var m_velocity : Number;
 		private var m_jumpY : Number;
 		private var m_isJumpping : Boolean;
+		private var m_isInTop : Boolean;
 		
 		private static const JUMP_STATE_ENTER : uint = 0;
 		private static const JUMP_STATE_TOP : uint = 1;

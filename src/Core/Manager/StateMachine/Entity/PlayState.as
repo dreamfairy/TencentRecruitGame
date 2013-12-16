@@ -2,7 +2,6 @@ package Core.Manager.StateMachine.Entity
 {
 	import flash.system.Capabilities;
 	
-	import Core.Actor.ActorBase;
 	import Core.Manager.ActorManager;
 	import Core.Manager.SceneManager;
 	import Core.Manager.LayerManager.LayerManager;
@@ -33,20 +32,24 @@ package Core.Manager.StateMachine.Entity
 			m_starling.enableErrorChecking = false;
 			m_starling.showStats = Capabilities.isDebugger;
 			m_starling.addEventListener(Event.ROOT_CREATED, onCreated);
+//			m_starling.stage.color = 0;
 			m_starling.start();	
 		}
 		
 		private function onCreated():void
 		{
-			SceneManager.instance.init(null);
-			ActorManager.instance.init("./resource/PrompaDroid.xml");
-			var hero : ActorBase = ActorManager.instance.createHero();
-			hero.displayObject.y = 200;
+			ActorManager.instance.init("./resource/prompa",startup);
+		}
+		
+		private function startup() : void
+		{
+			SceneManager.instance.init("./resource/mapData.xml");
 		}
 		
 		public function Update(t:Number):void
 		{
 			ActorManager.instance.update(t);
+			SceneManager.instance.update(t);
 		}
 		
 		public function Quit():void

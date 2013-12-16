@@ -29,10 +29,13 @@ package Core.Actor
 			if(m_state == JUMP_STATE_ENTER){
 				m_velocity += m_gravity;
 				m_velocity >= 0 ? onTop() : m_target.displayObject.y += m_velocity;
+				
+				if(null != onUpdate) onUpdate();
 			}else if(m_state == JUMP_STATE_TOP){
 				m_velocity += m_gravity;
 				m_target.displayObject.y += m_velocity;
 				
+				if(null != onUpdate) onUpdate();
 				if(m_target.displayObject.y >= m_jumpY) onExit();
 			}
 		}
@@ -43,6 +46,8 @@ package Core.Actor
 			m_velocity = -m_power;
 			m_jumpY = m_target.displayObject.y;
 			m_isJumpping = true;
+			
+			if(onStart != null)onStart();
 		}
 		
 		private function onTop() : void
@@ -55,14 +60,19 @@ package Core.Actor
 		private function onExit() : void
 		{
 			m_state = JUMP_STATE_EXIT;
-			m_target.displayObject.y = m_jumpY;
+			
+			if(int(m_target.displayObject.y) != m_jumpY){
+				m_target.displayObject.y = m_jumpY;
+			}
+			
 			m_isJumpping = false;
 			m_isInTop = false;
+			if(null != onComplete) onComplete();
 		}
 		
-		public function stop(rightY : Number = -1) :void
+		public function stop(rightY : int = -1) :void
 		{
-			m_jumpY = rightY == 1 ? m_target.displayObject.y : rightY;
+			m_jumpY = rightY == -1 ? m_target.displayObject.y : rightY;
 			onExit();
 		}
 		
@@ -75,6 +85,19 @@ package Core.Actor
 		{
 			return m_isInTop;
 		}
+		
+		/**
+		 * 跳跃完成时
+		 */
+		public var onComplete : Function;
+		/**
+		 * 跳跃全过程
+		 */
+		public var onUpdate : Function;
+		/**
+		 * 跳跃开始
+		 */
+		public var onStart : Function;
 		
 		private var m_state : uint;
 		private var m_target : ActorBase;

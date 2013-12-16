@@ -8,8 +8,11 @@ package Core.Manager
 	import Core.Actor.ActorBase;
 	import Core.Manager.LayerManager.LayerManager;
 	
+	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.extensions.fluocode.Fluocam;
+	import starling.textures.Texture;
+	import starling.utils.AssetManager;
 	
 	public class SceneManager
 	{
@@ -19,6 +22,8 @@ package Core.Manager
 		
 		public function init(mapUrl : String) : void
 		{
+			m_urlString = mapUrl;
+			
 			m_sceneLayer = new Sprite();
 			m_sceneLayer.touchable = false;
 			
@@ -48,9 +53,13 @@ package Core.Manager
 			
 			m_loader = new URLLoader();
 			m_loader.addEventListener(Event.COMPLETE, onLoadedData);
-			m_loader.load(new URLRequest(mapUrl));
+			m_loader.load(new URLRequest(mapUrl + "mapData.xml"));
 			
-			m_viewRect = new Rectangle(0,0,480,320);
+			m_viewRect = new Rectangle(0,0,LayerManager.instance.stage.stageWidth,LayerManager.instance.stage.stageHeight);
+			m_cam = new Fluocam(m_middleLayer, m_viewRect.width, m_viewRect.height * 1.5, true);
+			m_sceneLayer.addChild(m_cam);
+			
+			m_assetManager = new AssetManager();
 		}
 		
 		protected function onLoadedData(event:Event):void
@@ -63,6 +72,14 @@ package Core.Manager
 			m_sceneW = m_mapData.@width;
 			m_sceneH = m_mapData.@height;
 			
+			var farBgUrl : String = m_mapData.farLayer.@path;
+			var nearBgUrl : String = m_mapData.nearLayer.@path;
+			m_farTextureName = farBgUrl.substring(0,farBgUrl.lastIndexOf("."));
+			m_nearTextureName = nearBgUrl.substr(0,nearBgUrl.lastIndexOf("."));
+			m_assetManager.enqueue(m_urlString + farBgUrl);
+			m_assetManager.enqueue(m_urlString + nearBgUrl);
+			m_assetManager.loadQueue(onLoadedBg);
+			
 			var node : XML;
 			for each(node in m_mapData.gameobject.children())
 			{
@@ -73,7 +90,7 @@ package Core.Manager
 					case FLOOR_NODE:
 					{
 						for each(subNode in node.children()){
-							createGameObject(subNode.@x,subNode.@y,FLOOR_NODE);
+							createGameObject(subNode.@userData,subNode.@x,subNode.@y,FLOOR_NODE);
 						}
 						break;
 					}
@@ -81,7 +98,7 @@ package Core.Manager
 					case LADDER_NODE:
 					{
 						for each(subNode in node.children()){
-							createGameObject(subNode.@x,subNode.@y,LADDER_NODE);
+							createGameObject(subNode.@userData,subNode.@x,subNode.@y,LADDER_NODE);
 						}
 						break;
 					}
@@ -89,14 +106,14 @@ package Core.Manager
 					case NPC_NODE:
 					{
 						for each(subNode in node.children()){
-							createGameObject(subNode.@x,subNode.@y,NPC_NODE);
+							createGameObject(subNode.@userData,subNode.@x,subNode.@y,NPC_NODE);
 						}
 						break;
 					}
 						
 					case PLAYER_NODE:
 					{
-						createGameObject(node.@x,node.@y,PLAYER_NODE);
+						createGameObject(subNode.@userData,node.@x,node.@y,PLAYER_NODE);
 						break;
 					}
 						
@@ -107,12 +124,20 @@ package Core.Manager
 					}
 				}
 			}
-			
-			//flaten
-			m_mapLayer.flatten();
 		}
 		
-		private function createGameObject(x : Number, y : Number, type : String) : void
+		private function onLoadedBg(ratio : Number) : void
+		{
+			if(ratio == 1){
+				var image : Image = new Image(m_assetManager.getTexture(m_farTextureName));
+				m_farLayer.addChild(image);
+				
+				image = new Image(m_assetManager.getTexture(m_nearTextureName));
+				m_nearLayer.addChild(image);
+			}
+		}
+		
+		private function createGameObject(userData : String, x : Number, y : Number, type : String) : ActorBase
 		{
 			var actor : ActorBase;
 			if(type == FLOOR_NODE)
@@ -126,6 +151,9 @@ package Core.Manager
 			
 			actor.displayObject.x = x;
 			actor.displayObject.y = y;
+			actor.userData = userData;
+			
+			return actor;
 		}
 		
 		public function update(t : Number) : void
@@ -135,18 +163,19 @@ package Core.Manager
 		
 		private function updateViewPort():void
 		{
-//			if(m_cam)m_cam.explorer();
+			if(null == m_floowTarget) return;
+			
+			if(m_floowTarget.displayObject.x >= m_sceneW) m_floowTarget.displayObject.x = m_sceneW;
+			if(m_floowTarget.displayObject.x <= 0) m_floowTarget.displayObject.x = 0;
+			
+			m_nearLayer.x = -m_floowTarget.displayObject.x/10;
+			m_farLayer.x = -m_floowTarget.displayObject.x/20;
 		}
 		
 		//相机锁定目标
 		public function followTarget(actor : ActorBase) : void
 		{
 			m_floowTarget = actor;
-			
-			if(null == m_cam){
-				m_cam = new Fluocam(m_middleLayer, m_viewRect.width, m_viewRect.height * 2, true);
-				m_sceneLayer.addChild(m_cam);
-			}
 			
 			m_cam.working(null != actor);
 			
@@ -165,14 +194,7 @@ package Core.Manager
 			actor.displayObject.removeFromParent();
 		}
 		
-		public function addFloor(actor : ActorBase) : void
-		{
-			if(!m_mapLayer.contains(actor.displayObject)){
-				m_mapLayer.addChild(actor.displayObject);
-			}
-		}
-		
-		public function addLadder(actor : ActorBase) : void
+		public function addStaticActor(actor : ActorBase) : void
 		{
 			if(!m_mapLayer.contains(actor.displayObject)){
 				m_mapLayer.addChild(actor.displayObject);
@@ -214,6 +236,10 @@ package Core.Manager
 		private var m_floowTarget : ActorBase;
 		private var m_cam : Fluocam;
 		private var m_viewRect : Rectangle;
+		private var m_assetManager : AssetManager;
+		private var m_urlString : String;
+		private var m_farTextureName : String;
+		private var m_nearTextureName : String;
 		
 		private static const FLOOR_NODE : String = "floors";
 		private static const LADDER_NODE : String = "ladders";

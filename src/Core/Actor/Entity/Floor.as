@@ -28,10 +28,10 @@ package Core.Actor.Entity
 			m_bounds.width = m_image.texture.width;
 			m_bounds.height = m_image.texture.height;
 			
-			var test : BitmapData = new BitmapData(16,16,false,0xFF0000);
-			var t : Texture = Texture.fromBitmapData(test);
-			var img : Image = new Image(t);
-			Sprite(m_displayObject).addChild(img);
+//			var test : BitmapData = new BitmapData(16,16,false,0xFF0000);
+//			var t : Texture = Texture.fromBitmapData(test);
+//			var img : Image = new Image(t);
+//			Sprite(m_displayObject).addChild(img);
 		}
 		
 		public override function get bounds():Rectangle

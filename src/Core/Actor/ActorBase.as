@@ -37,9 +37,20 @@ package Core.Actor
 			
 		}
 		
+		public function set userData(value : Object) : void
+		{
+			m_userData = value;
+		}
+		
+		public function get userData() : Object
+		{
+			return m_userData;
+		}
+		
 		protected var m_bounds : Rectangle = new Rectangle();
 		protected var m_displayObject : DisplayObject;
 		protected var m_atals : TextureAtlas;
 		protected var m_speed : Number = 1;
+		protected var m_userData : Object;
 	}
 }

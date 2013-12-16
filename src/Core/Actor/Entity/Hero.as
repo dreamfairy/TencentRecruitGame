@@ -1,10 +1,8 @@
 package Core.Actor.Entity
 {
-	import flash.display.BitmapData;
 	import flash.geom.Rectangle;
 	import flash.ui.Keyboard;
 	import flash.utils.Dictionary;
-	import flash.utils.getTimer;
 	
 	import Core.Actor.ActorActionType;
 	import Core.Actor.ActorBase;
@@ -16,11 +14,10 @@ package Core.Actor.Entity
 	
 	import starling.core.Starling;
 	import starling.display.DisplayObjectContainer;
-	import starling.display.Image;
 	import starling.display.MovieClip;
 	import starling.display.Sprite;
-	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
+	import starling.textures.TextureSmoothing;
 	import starling.utils.RectangleUtil;
 
 	public class Hero extends ActorBase implements IStageEvent
@@ -39,13 +36,26 @@ package Core.Actor.Entity
 			m_container = new Sprite();
 			m_displayObject = m_container;
 			changeAction(ActorActionType.IDLE);
-			m_jumpState = new JumpState(0.58,15, this);
+			m_jumpState = new JumpState(0.58,10, this);
 			m_jumpState.onJumpping();
+			m_jumpState.onComplete = onJumpOver;
+		}
+		
+		public function onJumpOver() : void
+		{
+			var list : Vector.<ActorBase> = ActorManager.instance.getTargets(ActorType.FLOOR);
+			var len : int = list.length;
+			for(var i : int = 0; i < len; i++){
+				var target : Floor = list[i];
+				if(target.bounds.y <= (bounds.y + bounds.height - 10)) continue;
+				RectangleUtil.intersect(bounds, target.bounds, m_helpRect);
+				
+				if(!m_helpRect.isEmpty()){
+							return;
+				}
+			}
 			
-			var test : BitmapData = new BitmapData(16,16,false,0xFF0000);
-			var t : Texture = Texture.fromBitmapData(test);
-			var img : Image = new Image(t);
-			m_container.addChild(img);
+			m_jumpState.onJumpping();
 		}
 		
 		public override function get bounds():Rectangle
@@ -72,16 +82,17 @@ package Core.Actor.Entity
 			m_currentActionType = type;
 			
 			m_currentAction = m_actionCache[type];
+			m_currentAction.smoothing = TextureSmoothing.NONE;
 			Starling.juggler.add(m_currentAction);
 			m_container.addChild(m_currentAction);
 			
-			m_currentAction.x = m_container.scaleX == 1 ? -m_currentAction.width/2 : -m_currentAction.width/2;
-			m_currentAction.y = -(m_currentAction.height - m_currentAction.texture.height/2);
+			m_currentAction.x = -m_currentAction.width/2;
+			m_currentAction.y = -m_currentAction.height/2 - m_currentAction.texture.height/2;
 		}
 		
 		protected function addActionCache(prefixName : String, type : uint) : void
 		{
-			var mc : MovieClip = new MovieClip(m_atals.getTextures(prefixName));
+			var mc : MovieClip = new MovieClip(m_atals.getTextures(prefixName), 6);
 			m_actionCache[type] = mc;
 		}
 		
@@ -90,21 +101,6 @@ package Core.Actor.Entity
 			if(code in m_key) return;
 			
 			m_key[code] = true;
-			
-			if(code == Keyboard.D || code == Keyboard.A){
-				if(!m_needRush){
-					if(m_waitSecondHit && m_lastRushKey == code){
-						var nowTime : int = getTimer();
-						if(nowTime - m_firstRushKeyDownTime <= m_rushCheckInterval){
-							m_needRush = true;;
-						}else{
-							m_waitSecondHit = false;
-						}
-					}else{
-						m_waitSecondHit = false;
-					}
-				}
-			}
 		}
 		
 		public function onKeyUp(code:uint):void
@@ -112,17 +108,6 @@ package Core.Actor.Entity
 			delete m_key[code];
 			
 			if(code == Keyboard.D || code == Keyboard.A){
-				if(!m_waitSecondHit){
-					m_waitSecondHit = true;
-					m_lastRushKey = code;
-					m_firstRushKeyDownTime = getTimer();
-				}
-				
-				if(m_needRush){
-					m_waitSecondHit = false;
-					m_needRush = false;
-				}
-				
 				changeAction(ActorActionType.IDLE);
 			}
 		}
@@ -149,37 +134,74 @@ package Core.Actor.Entity
 			
 			if(m_key[Keyboard.S]){
 				checkLadder(m_clampSpeed);
-				checkHitFloor();
+				checkHitFloor(true);
 			}
+			
+			m_needRush = Keyboard.SPACE in m_key;
 			
 			//只有开始下落时或者不再跳跃时，才检测地板
 			if(m_jumpState.isInTop || m_currentActionType == ActorActionType.WALK){
+				checkLadder(0);
 				checkHitFloor();
 			}
 			
 			m_jumpState.update(time);
 		}
 		
-		protected function checkHitFloor():void
+		protected function checkHitFloor(needCheckEnd : Boolean = false):void
 		{
-			checkFloor(ActorManager.instance.getTargets(ActorType.FLOOR));
-		}
-		
-		protected function checkFloor(list : Vector.<ActorBase>) : void
-		{
+			var list : Vector.<ActorBase> = ActorManager.instance.getTargets(ActorType.FLOOR);
 			var len : int = list.length;
 			for(var i : int = 0; i < len; i++){
-				var target : ActorBase = list[i];
+				var target : Floor = list[i];
+				if(target.bounds.y <= (bounds.y + bounds.height - 10)) continue;
 				RectangleUtil.intersect(bounds, target.bounds, m_helpRect);
 				
 				if(!m_helpRect.isEmpty()){
-					m_jumpState.stop(target.bounds.y);
-					return;
+					if(needCheckEnd){
+						if(target.userData != "true") continue;
+						else{
+							m_jumpState.stop(target.bounds.y);
+							m_isOnLadder = false;
+							return;
+						}
+					}else{
+						m_jumpState.stop(target.bounds.y);
+						return;
+					}
 				}
-				
-				//如果遍历完找不到地面，切换到坠落状态
-				m_jumpState.onJumpping();
 			}
+			
+			//如果遍历完找不到地面，切换到坠落状态
+			if(!m_isOnLadder)
+				m_jumpState.onJumpping();
+		}
+		
+		protected function checkFloor(list : Vector.<ActorBase>, needCheckEnd : Boolean) : void
+		{
+			
+		}
+		
+		protected function checkNpc() : Boolean
+		{
+			var list : Vector.<ActorBase> = ActorManager.instance.getTargets(ActorType.NPC);
+			var len : int = list.length, i : int = 0;
+			var target : ActorBase;
+			
+			for(i = 0; i < len; i++)
+			{
+				target = list[i];
+				
+				RectangleUtil.intersect(bounds, target.bounds, m_helpRect);
+				
+				if(!m_helpRect.isEmpty()){
+					if(m_currentDialog && m_currentDialog.userData == target.userData) return true;
+					m_currentDialog = ActorManager.instance.createDialog(target,target.displayObject.x, target.displayObject.y - target.displayObject.height);
+					return true;
+				}
+			}
+			
+			return false;
 		}
 		
 		private function checkTarget(speed : Number):void
@@ -188,6 +210,7 @@ package Core.Actor.Entity
 			if(checkLadder(speed)) return;
 			
 			//之后寻找npc
+			if(checkNpc()) return;
 			
 			//什么都找不到，开启跳跃
 			m_jumpState.jump();
@@ -200,20 +223,19 @@ package Core.Actor.Entity
 			var len : int = list.length, i : int = 0;
 			var target : ActorBase;
 			
-			
 			for(i = 0; i < len; i++)
 			{
 				target = list[i];
 				RectangleUtil.intersect(bounds, target.bounds, m_helpRect);
 				
-				trace(bounds, target.bounds);
 				if(!m_helpRect.isEmpty()){
-					trace("找到梯子啦", target.bounds.x, target.bounds.y);
+					m_isOnLadder = true;
 					clampLadder(target, speed);
 					return true;
 				}
 			}
 			
+			m_isOnLadder = false;
 			return false;
 		}
 		
@@ -236,7 +258,7 @@ package Core.Actor.Entity
 		
 		private function move(speed : Number) : void
 		{
-			m_displayObject.x += m_needRush ? speed * 2 : speed;
+			m_displayObject.x += m_needRush ? speed * 2.5 : speed;
 			
 			var scaleX : int = speed > 0 ? 1 : -1;
 			if(scaleX != m_container.scaleX) 
@@ -244,6 +266,12 @@ package Core.Actor.Entity
 			
 			if(m_currentActionType != ActorActionType.WALK && !m_jumpState.isJumpping){
 				changeAction(ActorActionType.WALK);
+			}
+			
+			//移动后销毁对话窗口
+			if(m_currentDialog){
+				m_currentDialog.dispose();
+				m_currentDialog = null;
 			}
 		}
 		
@@ -258,14 +286,14 @@ package Core.Actor.Entity
 		
 		//clamp
 		protected var m_clampSpeed : Number;
-		
-		private var m_rushCheckInterval : Number = 500;
+		protected var m_isOnLadder : Boolean;
+
+		//rush
 		private var m_needRush : Boolean = false;
-		private var m_lastRushKey : uint;
-		private var m_firstRushKeyDownTime : uint;
-		private var m_waitSecondHit : Boolean;
 		
 		//helper
 		protected var m_helpRect : Rectangle = new Rectangle();
+		
+		private var m_currentDialog : ActorBase;
 	}
 }

@@ -1,12 +1,9 @@
 package Core.Actor.Entity
 {
-	import flash.geom.Rectangle;
-	
 	import Core.Actor.ActorActionType;
 	import Core.Actor.ActorType;
 	import Core.Actor.JumpState;
 	
-	import starling.core.Starling;
 	import starling.display.Sprite;
 	import starling.textures.TextureAtlas;
 	
@@ -28,32 +25,6 @@ package Core.Actor.Entity
 			changeAction(ActorActionType.IDLE);
 			m_jumpState = new JumpState(0.58,15, this);
 			m_jumpState.onJumpping();
-		}
-		
-		protected override function changeAction(type : uint) : void
-		{
-			if(m_currentAction){
-				Starling.juggler.remove(m_currentAction);
-				m_currentAction.removeFromParent();
-			}
-			
-			m_currentActionType = type;
-			
-			m_currentAction = m_actionCache[type];
-			Starling.juggler.add(m_currentAction);
-			m_container.addChild(m_currentAction);
-			
-			m_currentAction.x = m_container.scaleX == 1 ? -m_currentAction.width/2 : -m_currentAction.width/2;
-			m_currentAction.y = -m_currentAction.texture.height - 15;
-		}
-		
-		public override function get bounds():Rectangle
-		{
-			m_bounds.width = m_currentAction.texture.width;
-			m_bounds.height = m_currentAction.texture.height;
-			m_bounds.x = m_displayObject.x + m_bounds.width/2;
-			m_bounds.y = m_displayObject.y;
-			return m_bounds;
 		}
 		
 		public override function update(time:Number):void

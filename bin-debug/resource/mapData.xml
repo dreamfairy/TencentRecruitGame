@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scene width = "960" height = "320">
+	<farLayer path="far.jpg" />
+	<nearLayer path="near.png" />
 	<gameobject>
 		<floors>
-			<floor x = "0" y= "307.5"/>
-			<floor x = "134.5" y= "307.5"/>
-			<floor x = "269" y= "307.5"/>
-			<floor x = "403.5" y= "307.5"/>
-			<floor x = "538" y= "307.5"/>
-			<floor x = "672.5" y= "307.5"/>
-			<floor x = "807" y= "307.5"/>
-			<floor x = "941.5" y= "307.5"/>
+			<floor x = "0" y= "307.5" userData="true"/>
+			<floor x = "134.5" y= "307.5" userData="true"/>
+			<floor x = "269" y= "307.5" userData="true"/>
+			<floor x = "403.5" y= "307.5" userData="true"/>
+			<floor x = "538" y= "307.5" userData="true"/>
+			<floor x = "672.5" y= "307.5" userData="true"/>
+			<floor x = "807" y= "307.5" userData="true"/>
+			<floor x = "941.5" y= "307.5" userData="true"/>
 
 			<floor x = "82.2" y= "148"/>
 			<floor x = "216.7" y= "148"/>
@@ -21,9 +23,9 @@
 			<ladder x = "532.9" y = "147.5"/>
 		</ladders>
 		<npcs>
-			<npc x = "420.6" y = "200"/>
-			<npc x = "274.95" y = "-136.5"/>
+			<npc x = "420.6" y = "250" userData="helloWorld"/>
+			<npc x = "274.95" y = "-136.5" userData="blog:http://www.dreamfairy.cn"/>
 		</npcs>
-		<player x = "110" y = "170"/>
+		<player x = "70" y = "170"/>
 	</gameobject>
 </scene>

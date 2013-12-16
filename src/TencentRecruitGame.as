@@ -4,6 +4,8 @@ package
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
+	import flash.filters.GlowFilter;
+	import flash.text.TextField;
 	
 	import Core.Manager.StateMachine.StateMachineManager;
 	
@@ -49,6 +51,14 @@ package
 			StateMachineManager.instance.init(this);
 			//没有其他的界面了，直接进入游戏
 			StateMachineManager.instance.changeState(StateMachineManager.instance.playState);
+			
+			var tf : TextField = new TextField();
+			tf.text = "W,D 左右移动\n空格 加速,\nW,S 跳跃/上下楼梯\n与机器人重叠后按 W 可对话\n博客:http://www.dreamfairy.cn";
+			tf.textColor = 0xFFFFFF;
+			tf.width = tf.textWidth + 10;
+			tf.filters = [new GlowFilter()];
+			addChild(tf);
+			tf.selectable = false;
 		}
 	}
 }

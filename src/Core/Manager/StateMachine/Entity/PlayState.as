@@ -30,7 +30,7 @@ package Core.Manager.StateMachine.Entity
 		{
 			m_starling = new Starling(StarlingRootLayer, LayerManager.instance.stage);
 			m_starling.enableErrorChecking = false;
-//			m_starling.showStats = Capabilities.isDebugger;
+			m_starling.showStats = Capabilities.isDebugger;
 			m_starling.addEventListener(Event.ROOT_CREATED, onCreated);
 //			m_starling.stage.color = 0;
 			m_starling.start();	

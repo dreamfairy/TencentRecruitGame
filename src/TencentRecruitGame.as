@@ -9,6 +9,8 @@ package
 	
 	import Core.Manager.StateMachine.StateMachineManager;
 	
+	import starling.textures.Texture;
+	
 	/**
 	 * Author : 苍白的茧
 	 * Date : 2013-12-9 下午4:44:28
@@ -16,6 +18,18 @@ package
 	[SWF(frameRate="60",width="480",height="320")]
 	public class TencentRecruitGame extends Sprite
 	{
+		[Embed(source="../source/image 4.png")]
+		public static var lightMapData : Class;
+		
+		[Embed(source="../source/image 5.png")]
+		public static var snowData : Class;
+		
+		[Embed(source="../source/image 6.png")]
+		public static var bgData : Class;
+		
+		[Embed(source="../source/image 7.png")]
+		public static var fogData : Class;
+		
 		public function TencentRecruitGame()
 		{
 			stage ? init() : addEventListener(Event.ADDED_TO_STAGE, init);	

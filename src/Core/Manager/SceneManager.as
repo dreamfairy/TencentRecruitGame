@@ -42,12 +42,16 @@ package Core.Manager
 			m_actorLayer = new Sprite();
 			m_actorLayer.touchable = false;
 			
+			m_weatherLayer = new SnowScene();
+			m_weatherLayer.touchable = false;
+			
 			m_middleLayer.addChild(m_mapLayer);
 			m_middleLayer.addChild(m_actorLayer);
 			
 			m_sceneLayer.addChild(m_farLayer);
 			m_sceneLayer.addChild(m_middleLayer);
 			m_sceneLayer.addChild(m_nearLayer);
+			m_sceneLayer.addChild(m_weatherLayer);
 			
 			LayerManager.instance.starlingLayer.addChild(m_sceneLayer);
 			
@@ -228,6 +232,7 @@ package Core.Manager
 		private var m_farLayer : Sprite;
 		private var m_middleLayer : Sprite;
 		private var m_nearLayer : Sprite;
+		private var m_weatherLayer : Sprite;
 		
 		private var m_mapData : XML;
 		private var m_loader : URLLoader;
